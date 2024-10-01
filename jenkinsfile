@@ -1,13 +1,11 @@
+pipeline {
+    agent any
 
-  pipeline {
-    agent {
-      docker { image 'node: 17-alphine' }
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
 }
- stages {
-  stage ('Test'){
-    steps {
-     sh 'node --version'  
-
-}
-
-}}}
