@@ -19,9 +19,10 @@ pipeline {
     }
     stage('DB') {
       agent {
-        docker { image 'mysql:latest' }
+        docker { image 'mysql:latest' 
         args '-e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=mydb'
       }
+    }
       steps {
         sh "mysql -u root -prootpassword -e 'SELECT * FROM XTZ;'"
       }
