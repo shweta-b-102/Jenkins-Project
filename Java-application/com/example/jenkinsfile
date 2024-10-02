@@ -6,6 +6,7 @@ pipeline {
         docker { image 'maven:3.8.1-adoptopenjdk-11' }
       }
       steps {
+       dir('Java-application') {
         // Build the Java application using Maven
         sh 'mvn clean install'
       }
