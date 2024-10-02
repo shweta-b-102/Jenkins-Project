@@ -1,30 +1,18 @@
 pipeline {
-  agent any
-  stages {
-    stage ('Build Java application') {
-      agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
-      }
-      steps {
-        // Navigate to the Java-application directory where the pom.xml is located
-        dir('Java-application') {
-          // Build the Java application using Maven
-          sh 'mvn clean install'
+    agent any
+    stages {
+        stage('Code Checkout') {
+            steps {
+                // Checkout the code from the version control (e.g., Git)
+                git branch: 'main', url: 'https://github.com/your-repo/java-app.git'
+            }
         }
-      }
-    }
-    stage ('Run Java Application') {
-      agent {
-        docker { image 'openjdk:11' }
-      }
-      steps {
-        // Navigate to the Java-application directory
-        dir('Java-application') {
-          // Run the HelloWorld Java application
-          sh 'java -cp target/hello-world-1.0-SNAPSHOT.jar com.example.HelloWorld'
+        
+        stage('Build with Maven') {
+            steps {
+                // Use Maven to clean, compile, and package the application
+                sh 'mvn clean package'
+            }
         }
-      }
     }
-  }
-}
-
+    
