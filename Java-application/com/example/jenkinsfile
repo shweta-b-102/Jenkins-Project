@@ -4,7 +4,7 @@ pipeline {
         stage('Code Checkout') {
             steps {
                 // Checkout the code from the version control (e.g., Git)
-                git branch: 'main', url: 'https://github.com/your-repo/java-app.git'
+            #    git branch: 'main', url: 'https://github.com/your-repo/java-app.git'
             }
         }
         
