@@ -6,8 +6,11 @@ pipeline {
                 docker { image 'maven:3.8.1-adoptopenjdk-11' }
             }
             steps {
-                // Build the Java application using Maven
-                sh 'mvn clean install'
+                // Change to the directory where the pom.xml is located
+                dir('Java-application') {
+                    // Build the Java application using Maven
+                    sh 'mvn clean install'
+                }
             }
         }
         stage('Run Java Application') {
@@ -15,10 +18,12 @@ pipeline {
                 docker { image 'openjdk:11' }
             }
             steps {
-                // Run hello world
-                sh 'java -cp target/hello-world-1.0-SNAPSHOT.jar com.example.HelloWorld'
+                // Change to the directory where the pom.xml is located
+                dir('Java-application') {
+                    // Run hello world
+                    sh 'java -cp target/hello-world-1.0-SNAPSHOT.jar com.example.HelloWorld'
+                }
             }
         }
     }
 }
-
