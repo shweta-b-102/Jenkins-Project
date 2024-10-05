@@ -1,23 +1,40 @@
 pipeline {
-  agent none
-  stages {
-    stage('Back-end') {
-      agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
-      }
-      steps {
-        sh 'mvn clean package'
-        sh 'java -cp target/hello-world-backend-1.0-SNAPSHOT.jar com.example.HelloWorld'
-      }
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from your version control system
+                git 'https://github.com/shweta-b-102/Jenkins-Project' 
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Use Maven to build the application
+                script {
+                    // Ensure you have Maven installed on your Jenkins server
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                // Archive the built JAR file or target directory
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
     }
-    stage('Front-end') {
-      agent {
-        docker { image 'node:16-alpine' }
-      }
-      steps {
-        sh 'npm install'
-        sh 'npm start'
-      }
+
+    post {
+        success {
+            // Actions to perform after a successful build
+            echo 'Build completed successfully!'
+        }
+        failure {
+            // Actions to perform on failure
+            echo 'Build failed.'
+        }
     }
-  }
 }
